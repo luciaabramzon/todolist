@@ -1,0 +1,71 @@
+body{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+i{
+    margin:20px
+}
+
+#dashboard{
+text-align: center;
+margin-top: 30px;
+}
+
+.buttonDashboard{
+    margin-top: 30px;
+}
+
+.butDash{
+    margin:10px 60px
+}
+
+.navbar{
+    background-color: lightgrey;
+}
+
+.links{
+    text-decoration: none !important;
+    color:black;
+    margin:20px; 
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.todoList{
+    text-align: center;
+    margin-top:  40px;
+}
+
+.icons{
+    margin-top: 15px;
+    margin-left:10px
+}
+
+button{
+    margin: 10px;
+}
+
+.titleForm{
+    font-size: 20px;
+}
+
+.labelForm{
+    font-size:12px
+}
+
+.inputEdit{
+    font-size: 10px
+}
+
+.buttonEdit{
+   font-size:12px  !important
+}

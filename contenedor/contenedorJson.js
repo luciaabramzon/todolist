@@ -20,21 +20,24 @@ class Contenedor {
         return JSON.parse(data)
     }
 
-    save(elemento) {
+    id(){
         const elementos = this.getAll();
         const l=elementos.length
         if(l===0){
-            elemento.id =  1;
-        elementos.push(elemento);
-        fs.writeFileSync(this.filePath, JSON.stringify(elementos));
-        return elemento
+        return 1;
         } else{
             const index=elementos[l-1]
-            elemento.id = index.id + 1;
-            elementos.push(elemento);
-            fs.writeFileSync(this.filePath, JSON.stringify(elementos));
-            return elemento;
+            return index? index.id + 1:1
         }
+    }
+
+    save(elemento) {
+        const elementos = this.getAll();
+         elemento.id=this.id()
+        elementos.push(elemento)
+        fs.writeFileSync(this.filePath, JSON.stringify(elementos)); 
+        return elementos
+      
     }
 
     _saveAll (data) {
@@ -52,6 +55,34 @@ class Contenedor {
         return find
     }
 
+    itemId(){
+        const listas=this.getAll()
+     const itemsList=listas.map((list)=>list.items ).flat().map((item)=>item.id)
+        
+          const maxItem=itemsList.length>0?  Math.max(...itemsList)+1:1
+        return maxItem   
+    }   
+    
+    addItemToList(id,name,descriptionItem){
+        this.itemId()
+        const list=this.getById(id) 
+              const newItem={
+                name,
+                descriptionItem,
+                id:this.itemId()
+            }
+        list.items.push(newItem)
+       const allElements=this.getAll()
+       const updatedElements = allElements.map(element => {
+        if (element.id === id) {
+          return list
+        }
+        return element
+      })    
+      this._saveAll(updatedElements)   
+}
+
+
     updateById(id, object) {
         const registro=this.getAll()
         const find=registro.find((reg)=>reg.id===id)
@@ -62,7 +93,8 @@ class Contenedor {
             const newObjectUpdate={
                 title:object.title,
                 description:object.description,
-                id:registro[index].id
+                id:registro[index].id,
+                items:object.items
             }
             registro[index]=newObjectUpdate
           this._saveAll(registro)

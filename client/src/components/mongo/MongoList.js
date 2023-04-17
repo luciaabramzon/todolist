@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
 import { addMongoList, deleteMongo, getListMongo, updateMongo } from "../../api/client"
 import Loading from "../helpers/Loading"
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
-import styles from '../../css/styles.css'
 import EditForm from "../EditForm"
+import AddForm from "../AddForm"
+import List from "../List"
 
 
     const MongoList=()=>{
@@ -18,11 +17,10 @@ import EditForm from "../EditForm"
         setMongoList(res.data)
     }
 
-    const addToDoMongo=async(e)=>{
+    const addToDoMongo=async()=>{
         if(title===''){
             alert('Se requiere un titulo')
         }else{
-            e.preventDefault()
             await addMongoList({title,description})
             setTitle('')
             setDescription('')
@@ -30,7 +28,7 @@ import EditForm from "../EditForm"
         }
     }
 
-    const deleteToDoMongo=async(e,id)=>{
+    const deleteToDo=async(e,id)=>{
         await deleteMongo(id)
        getToDoMongo()
     }
@@ -60,27 +58,13 @@ import EditForm from "../EditForm"
     return(
         <>
         <h1>To Do List</h1>
-        <Form onSubmit={addToDoMongo}>
-        <Form.Group className="mb-3">
-            <Form.Label>Title</Form.Label>
-            <Form.Control 
-            type="text" 
-            placeholder="Enter Title"
-            value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-            />
-        </Form.Group>
-        <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
-            <Form.Control 
-            type="text" 
-            placeholder="Enter Description"
-            value={description}
-            onChange={(e)=>setDescription(e.target.value)}
-            />
-        </Form.Group>
-        <Button variant="outline-primary" type="submit">Submit</Button>
-        </Form>
+        <AddForm
+          title={title}
+          description={description}
+          onSubmit={addToDoMongo}
+          setDescription={setDescription}
+          setTitle={setTitle}
+        />
         {mongoList.map((list)=>(
             <div key={list.id}>
                 {editingId===list.id ?(
@@ -92,18 +76,13 @@ import EditForm from "../EditForm"
                     onCancel={handleCancel}
                     />
                 ):(
-                    <div className="todoList">
-                    <h4 >{list.title}</h4>
-                    <li>{list.description}</li>
-                    <div>
-                    <button onClick={()=>handleEdit(list.id)}>
-                    <i className="bi bi-pencil"/>
-                    </button>
-                    <button onClick={(e)=>{deleteToDoMongo(e,list.id)}}> 
-                    <i className="bi bi-trash3"/>
-                    </button>
-                    </div>
-                    </div>
+                    <List
+                id={list.id}
+                title={list.title}
+                description={list.description}
+                handleEdit={handleEdit}
+                deleteToDo={deleteToDo}
+                />
                        )}
                     </div>
             

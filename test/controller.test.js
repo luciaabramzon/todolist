@@ -3,7 +3,7 @@ const app=require('../server')
 const {describe,it}=require('@jest/globals')
 const PORT=process.env.PORT ||8000
 const connectDBTest=require('./test-config')
-const { default: mongoose } = require('mongoose')
+const  mongoose= require('mongoose')
 let server
 
  
@@ -25,7 +25,7 @@ beforeAll(async () => {
 describe('Test for MongoDB controllers endpoints',()=>{
     describe('GET /api/todolists',()=>{
         afterEach(async () => {
-            await new Promise((resolve) => setTimeout(() => resolve(), 1000))
+            await new Promise((resolve) => setTimeout(() => resolve()),12000)
           })
       
         it('Should return status 200',async()=>{
